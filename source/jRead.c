@@ -136,7 +136,13 @@ int   			jReadTextLen( const char *pJson );
 int   			jReadStrcmp( struct jReadElement *j1, struct jReadElement *j2 );
 const char *	jReadCountObject( const char *pJson, struct jReadElement *pResult, int keyIndex );
 const char *	jReadCountArray( const char *pJson, struct jReadElement *pResult );
-
+const char *	jReadSkipWhitespace( const char *sp );
+const char *	jReadFindTok( const char *sp, int *tokType );
+const char *	jReadGetString( const char *pJson, struct jReadElement *pElem, char quote );
+int   			jReadTextLen( const char *pJson );
+int   			jReadStrcmp( struct jReadElement *j1, struct jReadElement *j2 );
+const char *	jReadCountObject( const char *pJson, struct jReadElement *pResult, int keyIndex );
+const char *	jReadCountArray( const char *pJson, struct jReadElement *pResult );
 //=======================================================
 
 const char *jReadSkipWhitespace( const char *sp )
