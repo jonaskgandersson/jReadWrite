@@ -1,5 +1,5 @@
 {
-    "name": "mbed-jReadWrite",
+    "name": "jReadWrite",
     "config": {
         "jWrite_StackDepth": {
             "help": "max nesting depth of objects/arrays",
