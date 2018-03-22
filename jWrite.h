@@ -83,13 +83,6 @@
 extern "C" {
 #endif
 
-// #define JW_GLOBAL_CONTROL_STRUCT	// <--- comment this out to use applic-supplied jWriteControl
-
-#define JWRITE_STACK_DEPTH 32			// max nesting depth of objects/arrays
-
-#define JW_COMPACT	0					// output string control for jwOpen()
-#define JW_PRETTY	1					// pretty adds \n and indentation
-
 enum jwNodeType{
 	JW_OBJECT= 1,
 	JW_ARRAY
