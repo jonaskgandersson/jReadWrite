@@ -1,33 +1,26 @@
-1 {
+{
     "name": "mbed-jReadWrite",
     "config": {
-        
         "jWrite_StackDepth": {
             "help": "max nesting depth of objects/arrays",
             "macro_name": "JWRITE_STACK_DEPTH",
             "value": 32,
             "required": true
         },
-        "jWrite_OutputStringControl": {
-            "help": "output string control for jwOpen()",
-            "macro_name": "JW_COMPACT",
-            "value": ,
-            "required": true
+        "jWrite_GlobalControlStruct": {
+            "help": "If null use applic-supplied jWriteControl",
+            "macro_name": "JW_GLOBAL_CONTROL_STRUCT",
+            "value": null
         },
-        "jWrite_PrettyIndentation": {
-            "help": "pretty adds \n and indentation",
-            "macro_name": "JW_PRETTY",
-            "value": 1,
-            "required": true
+        "jRead_DoubleQuoteInQuery": {
+            "help": "If null use double quote insted of single, i.e.  {\"key\" instead of {'key'",
+            "macro_name": "JREAD_DOUBLE_QUOTE_IN_QUERY",
+            "value": null
         },
-        
-    },
-    "macros": [
-        //"JW_GLOBAL_CONTROL_STRUCT", //comment this out to use applic-supplied jWriteControl
-        //"JREAD_DOUBLE_QUOTE_IN_QUERY" //comment this out to use double quote insted of single, i.e.  "{\"key\"" instead of "{'key'"
-        "EXPORT_OPTIONAL_FUNCTIONS" // Export Optional Helper Functions in jRead.h
-    ],
-    "target_overrides": {
-        
+        "jRead_ExportOptionalFunvtions": {
+            "help": "Export Optional Helper Functions in jRead.h, set value to null to keep private",
+            "macro_name": "EXPORT_OPTIONAL_FUNCTIONS",
+            "value": true
+        }       
     }
 }
