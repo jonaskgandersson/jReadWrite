@@ -100,7 +100,6 @@ const char * jReadParam( const char *pJson, const char *pQuery, struct jReadElem
 const char *jReadArrayStep( const char *pJsonArray, struct jReadElement *pResult );
 
 
-#define EXPORT_OPTIONAL_FUNCTIONS
 #ifdef EXPORT_OPTIONAL_FUNCTIONS 
 
 //------------------------------------------------------
