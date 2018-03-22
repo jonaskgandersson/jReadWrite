@@ -83,6 +83,9 @@
 extern "C" {
 #endif
 
+#define JW_PRETTY 1
+#define JW_COMPACT 0
+
 enum jwNodeType{
 	JW_OBJECT= 1,
 	JW_ARRAY
