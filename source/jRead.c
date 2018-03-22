@@ -94,9 +94,13 @@
 // - fixed null ptr if '[*' used when null param passed
 // *NEW* in 1v6  (24sep2016)
 // - fixed handling of empty arrays and objects
+// *NEW* in 1v7  (22mar2018)
+// - Change arg to const to clarify caller that the arg will not be changed
+//   and to remove compile warnings
 //
 // TonyWilk, 24sep2016 
 // mail at tonywilk . co .uk
+// Jonas Andersson 22mar2018
 //
 // License: "Free as in You Owe Me a Beer"
 // - actually, since some people really worry about licenses, you are free to apply
