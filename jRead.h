@@ -6,6 +6,10 @@
 // uncomment this if you really want to use double quotes in query strings instead of '
 //#define JREAD_DOUBLE_QUOTE_IN_QUERY
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //
 // return dataTypes:
 #define JREAD_ERROR		0		// general error, eof etc.
@@ -35,11 +39,11 @@
 //    bytelen specifies the length of the returned data pointed to by pValue
 //
 struct jReadElement{
-	int dataType;		// one of JREAD_...
-	int elements;		// number of elements (e.g. elements in array or object)
-	int bytelen;		// byte length of element (e.g. length of string, array text "[ ... ]" etc.)
-	void * pValue;		// pointer to value string in JSON text
-	int error;			// error value if dataType == JREAD_ERROR
+	int dataType;			// one of JREAD_...
+	int elements;			// number of elements (e.g. elements in array or object)
+	int bytelen;			// byte length of element (e.g. length of string, array text "[ ... ]" etc.)
+	const void * pValue;	// pointer to value string in JSON text
+	int error;				// error value if dataType == JREAD_ERROR
 };
 
 //------------------------------------------------------
@@ -58,7 +62,7 @@ struct jReadElement{
 // returns with: 
 //    result.dataType= JREAD_STRING, result.pValue->'value', result.bytelen=5
 //
-char *	jRead( char *pJson, char *pQuery, struct jReadElement *pResult );
+const char *	jRead( const char *pJson, const char *pQuery, struct jReadElement *pResult );
 
 // version of jRead which allows one or more queryParam integers to be substituted
 // for array or object indexes marked by a '*' in the query
@@ -69,7 +73,7 @@ char *	jRead( char *pJson, char *pQuery, struct jReadElement *pResult );
 // You can supply an array of integers which are indexed for each '*' in pQuery
 // however, horrid things will happen if you don't supply enough parameters
 // 
-char * jReadParam( char *pJson, char *pQuery, struct jReadElement *pResult, int *queryParams );
+const char * jReadParam( const char *pJson, const char *pQuery, struct jReadElement *pResult, int *queryParams );
 
 // Array Stepping function
 // - assumes pJsonArray is JSON source of an array "[ ... ]"
@@ -93,7 +97,7 @@ char * jReadParam( char *pJson, char *pQuery, struct jReadElement *pResult, int 
 //
 // Note: this significantly speeds up traversing arrays.
 //
-char *jReadArrayStep( char *pJsonArray, struct jReadElement *pResult );
+const char *jReadArrayStep( const char *pJsonArray, struct jReadElement *pResult );
 
 
 #define EXPORT_OPTIONAL_FUNCTIONS
@@ -102,10 +106,10 @@ char *jReadArrayStep( char *pJsonArray, struct jReadElement *pResult );
 //------------------------------------------------------
 // Optional Helper Functions
 //
-long jRead_long( char *pJson, char *pQuery, int *queryParams );
-int jRead_int( char *pJson, char *pQuery, int *queryParams );
-double jRead_double( char *pJson, char *pQuery, int *queryParams );
-int jRead_string( char *pJson, char *pQuery, char *pDest, int destlen, int *queryParams );
+long jRead_long( const char *pJson, const char *pQuery, int *queryParams );
+int jRead_int( const char *pJson, const char *pQuery, int *queryParams );
+double jRead_double( const char *pJson, const char *pQuery, int *queryParams );
+int jRead_string( const char *pJson, const char *pQuery, char *pDest, int destlen, int *queryParams );
 
 //------------------------------------------------------
 // Optional String output Functions
@@ -116,13 +120,17 @@ char * jReadErrorToString( int error );		   	// string descibes error code
 //------------------------------------------------------
 // Other jRead utilities which may be useful...
 //
-char * jRead_atoi( char *p, unsigned int *result );	// string to unsigned int
-char * jRead_atol( char *p, long *result );			// string to signed long
-char * jRead_atof( char *p, double *result);		// string to double (does not do exponents)
+const char * jRead_atoi( const char *p, unsigned int *result );	// string to unsigned int
+const char * jRead_atol( const char *p, long *result );			// string to signed long
+const char * jRead_atof( const char *p, double *result);		// string to double (does not do exponents)
 int jReadStrcmp( struct jReadElement *j1, struct jReadElement *j2 ); // compare STRING elements
 
 // copy element to '\0'-terminated buffer
 char * jRead_strcpy( char *destBuffer, int destLength, struct jReadElement *pElement );
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 // end of jRead.h

@@ -15,10 +15,6 @@
 
 #include "jWrite.h"
 
-//#include <stdint.h>			// definintion of uint32_t, int32_t
-typedef unsigned int uint32_t;
-typedef int int32_t;
-
 
 // the jWrite functions take the above jWriteControl structure pointer
 // to maintain state while writing a JSON string.
@@ -45,8 +41,8 @@ struct jWriteControl g_jWriteControl;			// global control struct
 // Internal functions
 //
 void jwPutch( JWC_DECL char c );
-void jwPutstr( JWC_DECL char *str );
-void jwPutraw( JWC_DECL char *str );
+void jwPutstr( JWC_DECL const char *str );
+void jwPutraw( JWC_DECL const char *str );
 void modp_itoa10(int32_t value, char* str);
 void modp_dtoa2(double value, char* str, int prec);
 void jwPretty( JWC_DECL0 );
@@ -129,11 +125,11 @@ int jwErrorPos( JWC_DECL0 )
 //------------------------------------------
 // Object insert functions
 //
-int _jwObj( JWC_DECL char *key );
+int _jwObj( JWC_DECL const char *key );
 
 // put raw string to object (i.e. contents of rawtext without quotes)
 //
-void jwObj_raw( JWC_DECL char *key, char *rawtext )
+void jwObj_raw( JWC_DECL const char *key, const char *rawtext )
 {
 	if(_jwObj( JWC_PARAM key ) == JWRITE_OK)
 		jwPutraw( JWC_PARAM rawtext);
@@ -141,37 +137,37 @@ void jwObj_raw( JWC_DECL char *key, char *rawtext )
 
 // put "quoted" string to object
 //
-void jwObj_string( JWC_DECL char *key, char *value )
+void jwObj_string( JWC_DECL const char *key, const char *value )
 {
 	if(_jwObj( JWC_PARAM key ) == JWRITE_OK)
 		jwPutstr( JWC_PARAM value );
 }
 
-void jwObj_int( JWC_DECL char *key, int value )
+void jwObj_int( JWC_DECL const char *key, int value )
 {
 	modp_itoa10( value, JWC(tmpbuf) );
 	jwObj_raw( JWC_PARAM key, JWC(tmpbuf) );
 }
 
-void jwObj_double( JWC_DECL char *key, double value )
+void jwObj_double( JWC_DECL const char *key, double value )
 {
 	modp_dtoa2( value, JWC(tmpbuf), 6 );
 	jwObj_raw( JWC_PARAM key, JWC(tmpbuf) );
 }
 
-void jwObj_bool( JWC_DECL char *key, int oneOrZero )
+void jwObj_bool( JWC_DECL const char *key, int oneOrZero )
 {
 	jwObj_raw( JWC_PARAM key, (oneOrZero) ? "true" : "false" );
 }
 
-void jwObj_null( JWC_DECL char *key )
+void jwObj_null( JWC_DECL const char *key )
 {
 	jwObj_raw( JWC_PARAM key, "null" );
 }
 
 // put Object in Object
 //
-void jwObj_object( JWC_DECL char *key )
+void jwObj_object( JWC_DECL const char *key )
 {
 	if(_jwObj( JWC_PARAM key ) == JWRITE_OK)
 	{
@@ -182,7 +178,7 @@ void jwObj_object( JWC_DECL char *key )
 
 // put Array in Object
 //
-void jwObj_array( JWC_DECL char *key )
+void jwObj_array( JWC_DECL const char *key )
 {
 	if(_jwObj( JWC_PARAM key ) == JWRITE_OK)
 	{
@@ -198,7 +194,7 @@ int _jwArr( JWC_DECL0 );
 
 // put raw string to array (i.e. contents of rawtext without quotes)
 //
-void jwArr_raw( JWC_DECL char *rawtext )
+void jwArr_raw( JWC_DECL const char *rawtext )
 {
 	if(_jwArr( JWC_PARAM0 ) == JWRITE_OK)
 		jwPutraw( JWC_PARAM rawtext);
@@ -206,7 +202,7 @@ void jwArr_raw( JWC_DECL char *rawtext )
 
 // put "quoted" string to array
 //
-void jwArr_string( JWC_DECL char *value )
+void jwArr_string( JWC_DECL const char *value )
 {
 	if(_jwArr( JWC_PARAM0 ) == JWRITE_OK)
 		jwPutstr( JWC_PARAM value );
@@ -321,7 +317,7 @@ void jwPutch( JWC_DECL char c )
 
 // put string enclosed in quotes
 //
-void jwPutstr( JWC_DECL char *str )
+void jwPutstr( JWC_DECL const char *str )
 {
 	jwPutch( JWC_PARAM '\"' );
 	while( *str != '\0' )
@@ -331,7 +327,7 @@ void jwPutstr( JWC_DECL char *str )
 
 // put raw string
 //
-void jwPutraw( JWC_DECL char *str )
+void jwPutraw( JWC_DECL const char *str )
 {
 	while( *str != '\0' )
 		jwPutch( JWC_PARAM *str++ );
@@ -344,7 +340,7 @@ void jwPutraw( JWC_DECL char *str )
 // - adds comma if reqd
 // - adds "key" :
 //
-int _jwObj( JWC_DECL char *key )
+int _jwObj( JWC_DECL const char *key )
 {
 	if(JWC(error) == JWRITE_OK)
 	{

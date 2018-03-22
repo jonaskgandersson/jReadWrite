@@ -79,7 +79,11 @@
 // TonyWilk, Mar 2015
 //
 // 
-#define JW_GLOBAL_CONTROL_STRUCT	// <--- comment this out to use applic-supplied jWriteControl
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// #define JW_GLOBAL_CONTROL_STRUCT	// <--- comment this out to use applic-supplied jWriteControl
 
 #define JWRITE_STACK_DEPTH 32			// max nesting depth of objects/arrays
 
@@ -152,18 +156,18 @@ int jwErrorPos( );
 // Object insertion functions
 // - used to insert "key":"value" pairs into an object
 //
-void jwObj_string( char *key, char *value );
-void jwObj_int( char *key, int value );
-void jwObj_double( char *key, double value );
-void jwObj_bool( char *key, int oneOrZero );
-void jwObj_null( char *key );
-void jwObj_object( char *key );
-void jwObj_array( char *key );
+void jwObj_string( const char *key, const char *value );
+void jwObj_int( const char *key, int value );
+void jwObj_double( const char *key, double value );
+void jwObj_bool( const char *key, int oneOrZero );
+void jwObj_null( const char *key );
+void jwObj_object( const char *key );
+void jwObj_array( const char *key );
 
 // Array insertion functions
 // - used to insert "value" elements into an array
 //
-void jwArr_string( char *value );
+void jwArr_string( const char *value );
 void jwArr_int( int value );
 void jwArr_double( double value );
 void jwArr_bool( int oneOrZero );
@@ -180,8 +184,8 @@ int jwEnd( );
 // i.e. enclosing quotes are not added
 // - use if your app. supplies its own value->string functions
 //
-void jwObj_raw( char *key, char *rawtext );
-void jwArr_raw( char *rawtext );
+void jwObj_raw( const char *key, const char *rawtext );
+void jwArr_raw( const char *rawtext );
 
 #else  /* JW_GLOBAL_CONTROL_STRUCT not defined */
 // Same API functions with app-supplied control struct option
@@ -189,14 +193,14 @@ void jwArr_raw( char *rawtext );
 void jwOpen( struct jWriteControl *jwc, char *buffer, unsigned int buflen, enum jwNodeType rootType, int isPretty );
 int jwClose( struct jWriteControl *jwc );
 int jwErrorPos( struct jWriteControl *jwc );
-void jwObj_string( struct jWriteControl *jwc, char *key, char *value );
-void jwObj_int( struct jWriteControl *jwc, char *key, int value );
-void jwObj_double( struct jWriteControl *jwc, char *key, double value );
-void jwObj_bool( struct jWriteControl *jwc, char *key, int oneOrZero );
-void jwObj_null( struct jWriteControl *jwc, char *key );
-void jwObj_object( struct jWriteControl *jwc, char *key );
-void jwObj_array( struct jWriteControl *jwc, char *key );
-void jwArr_string( struct jWriteControl *jwc, char *value );
+void jwObj_string( struct jWriteControl *jwc, const char *key, const char *value );
+void jwObj_int( struct jWriteControl *jwc, const char *key, int value );
+void jwObj_double( struct jWriteControl *jwc, const char *key, double value );
+void jwObj_bool( struct jWriteControl *jwc, const char *key, int oneOrZero );
+void jwObj_null( struct jWriteControl *jwc, const char *key );
+void jwObj_object( struct jWriteControl *jwc, const char *key );
+void jwObj_array( struct jWriteControl *jwc, const char *key );
+void jwArr_string( struct jWriteControl *jwc, const char *value );
 void jwArr_int( struct jWriteControl *jwc, int value );
 void jwArr_double( struct jWriteControl *jwc, double value );
 void jwArr_bool( struct jWriteControl *jwc, int oneOrZero );
@@ -204,10 +208,13 @@ void jwArr_null( struct jWriteControl *jwc );
 void jwArr_object( struct jWriteControl *jwc );
 void jwArr_array( struct jWriteControl *jwc );
 int jwEnd( struct jWriteControl *jwc );
-void jwObj_raw( struct jWriteControl *jwc, char *key, char *rawtext );
-void jwArr_raw( struct jWriteControl *jwc, char *rawtext );
+void jwObj_raw( struct jWriteControl *jwc, const char *key, const char *rawtext );
+void jwArr_raw( struct jWriteControl *jwc, const char *rawtext );
 
 #endif /* JW_GLOBAL_CONTROL_STRUCT */
 
+#ifdef __cplusplus
+}
+#endif
 
 /* end of jWrite.h */
